@@ -1,0 +1,1 @@
+import FungibleToken from "../interfaces/FungibleToken.cdc"
