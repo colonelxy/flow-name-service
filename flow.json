@@ -1,4 +1,25 @@
 {
+	"contracts": {
+		"Domains": "./cadence/contracts/Domains.cdc",
+		"FlowToken": {
+			"source": "./cadence/contracts/tokens/FlowToken.cdc",
+			"aliases": {
+				"testnet": "7e60df042a9c0868"
+			}
+		},
+		"FungibleToken": {
+			"source": "./cadence/contracts/interfaces/FungibleToken.cdc",
+			"aliases": {
+				"testnet": "9a0766d93b6608b7"
+			}
+		},
+		"NonFungibleToken": {
+			"source": "./cadence/contracts/interfaces/NonFungibleToken.cdc",
+			"aliases": {
+				"testnet": "631e88ae7f1d7c20"
+			}
+		}
+	},
 	"networks": {
 		"emulator": "127.0.0.1:3569",
 		"mainnet": "access.mainnet.nodes.onflow.org:9000",
@@ -9,6 +30,17 @@
 		"emulator-account": {
 			"address": "f8d6e0586b0a20c7",
 			"key": "7aeadf52d6adf4a6f3017595e4ff6370bbeed9b6d6f330d35ad9266bddcb4067"
+		},
+		"testnet": {
+			"address": "3c8b457f32bbf728",
+			"key": "fad4c673b7d74705472011f34b598cfcc9e411d55b917d757976e01c4cc1b5aa"
+		}
+	},
+	"deployments": {
+		"testnet": {
+			"testnet": [
+				"Domains"
+			]
 		}
 	}
 }

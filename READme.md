@@ -1,1 +1,5 @@
-# Creating a Flow Name Service
+Private Key fad4c673b7d74705472011f34b598cfcc9e411d55b917d757976e01c4cc1b5aa
+Public Key 80732af2d2841a3b1b536c429e6037cc8647dabed35cbae2a7fdf677bebfa6b1f383fa8e1fd144a89ad71c20d037445c59ec5c23abfa9206cc9939ed289c05eb
+Mnemonic consider random piano cousin client summer surface absent castle tomato field human
+Derivation Path m/44'/539'/0'/0/0
+Signature Algorithm ECDSA_P256
