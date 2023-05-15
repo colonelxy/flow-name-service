@@ -44,3 +44,33 @@ pub fun main(): [Domains.DomainInfo] {
     return infos
 }
 `;
+
+export async function checkIsAvailable(name) {
+    return fcl.query({
+        cadence: CHECK_IS_AVAILABLE,
+        args: (arg, t) => [arg(name, t.string)],
+    });
+}
+
+const CHECK_IS_AVAILABLE = `
+import Domains from 0xDomains
+pub fun main(name: String) : Bool {
+
+}
+`;
+
+export async function getRentCost(name, duration) {
+    return fcl.query({
+        cadence: GET_RENT_COST,
+        args: (arg, t) => [arg(name, t.string), arg(duration, t.UFix64)],
+
+
+    });
+}
+
+const GET_RENT_COST = `
+import Domains from 0xDomains
+pub fun main(name: String, duration: UFix64): UFix64 {
+    rerturn Domains.getRentCost(name: name, duration: duration)
+}
+`;
