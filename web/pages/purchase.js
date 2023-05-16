@@ -54,7 +54,7 @@ export default function Purchase() {
     }
 
     useEffect(() => {
-        getCost():
+        getCost();
     }, [name, years]);
 
     return (
