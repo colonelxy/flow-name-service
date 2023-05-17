@@ -127,3 +127,46 @@ transaction(nameHash: String, addr: Address) {
     }
 }
 `;
+ 
+
+export async function renewDomain(name, duration) {
+    return fcl.mutate({
+        caence: RENEW_DOMAIN,
+        args: (arg, t) => [arg(name, t.String), arg(duration, t.UFix64)],
+        payer: fcl.authz,
+        proposer: fcl.authz,
+        authorizations: [fcl.authz],
+        limit: 1000,
+    });
+}
+
+const RENEW_DOMAIN = `
+import Domains from 0xDomains
+import FungibleToken from 0xFungibleToken
+import NonFungibleToken from 0xNonFungibleToken
+
+transaction(name: String, duration: UFix64) {
+    let vault: @FungibleToken.Vault
+    var domain: &Domains.NFT
+    prepare(account: AuthAcount) {
+        let collectionRef = account.borrow<&{Domains.CollectionPublic}>(from: Domains.DomainsStoragePath) ?? panic("Could not borrow collection public")
+        var domain: &Domains.NFT? =nil
+        let collectionPrivateRef = account.borrow<&{Domains.CollectionPrivate}>(from: Domains.DomainsStoragePath) ?? panic("Could not borrow collection private")
+
+        let nameHash = Domains.getDomainNameHash(name: name)
+        let domainId = Domains.namehashToIDs[nameHash]
+        log(domainId)
+        if domainId == nil {
+            panic("You don't own this domain)
+        }
+
+        domain = colllectionPrivateRef.borrowDomainPrivate(id: domainId!)
+        self.domain = domain!
+        let vaultRef = account.borrow<&FungibleToken.Vault>(from: /storage/flowTokenVault) ?? panic("Could not borrow FLOW token vault reference")
+        let rentCost = Domains.getRentCost(name: name, duration: duration)
+        self.vault <- vaultRef.withdraw(amount: rentCost)
+    }
+    execute {
+        Domains.renewDomain(domain: self.domain, duration: duration, feeTokens <- self.vault)
+}
+`;
