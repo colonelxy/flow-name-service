@@ -170,3 +170,4 @@ transaction(name: String, duration: UFix64) {
         Domains.renewDomain(domain: self.domain, duration: duration, feeTokens <- self.vault)
 }
 `;
+ 
