@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import NavBar from "@/components/NavBar";
 import { useAuth } from "@/contexts/AuthContext";
 import { getMyDomainInfos } from "@/flow/scripts";
-import { initializedAccount } from "@/flow/transactions";
+import { initializeAccount } from "@/flow/transactions";
 import styles from "@/styles/Manage.module.css";
 
 export default function Home() {
@@ -14,11 +14,21 @@ export default function Home() {
 
     async function initialize() {
         try {
-            const txId = await initializedAccount();
+            const txId = await initializeAccount();
             await fcl.tx(txId).onceSealed();
             await checkInit();
         } catch (e) {
             console.error(e);
+        }
+    }
+
+      // Function to fetch the domains owned by the currentUser
+    async function fetchMyDomains() {
+        try {
+        const domains = await getMyDomainInfos(currentUser.addr);
+        setDomainInfos(domains);
+        } catch (error) {
+        console.error(error.message);
         }
     }
 

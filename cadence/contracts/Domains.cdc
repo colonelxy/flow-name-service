@@ -1,11 +1,6 @@
-// import NonFungibleToken from "./interfaces/NonFungibleToken.cdc"
-// import FungibleToken from "./interfaces/FungibleToken.cdc"
-// import FlowToken from "./tokens/FlowToken.cdc"
-
-import "NonFungibleToken"
-import "FungibleToken"
-import "FlowToken"
-
+import FungibleToken from "./interfaces/FungibleToken.cdc"
+import NonFungibleToken from "./interfaces/NonFungibleToken.cdc"
+import FlowToken from "./tokens/FlowToken.cdc"
 
 pub contract Domains: NonFungibleToken {
   pub let forbiddenChars: String
@@ -503,5 +498,4 @@ pub contract Domains: NonFungibleToken {
   access(account) fun updateNameHashToID(nameHash: String, id: UInt64) {
     self.nameHashToIDs[nameHash] = id
   }
-} 
- 
+}

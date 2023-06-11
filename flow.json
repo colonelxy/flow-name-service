@@ -1,5 +1,11 @@
 {
-	"contracts": {
+	"emulators": {
+		"default": {
+		  "port": 3569,
+		  "serviceAccount": "emulator-account"
+		}
+	  },
+	  "contracts": {
 		"Domains": "./cadence/contracts/Domains.cdc",
 		"FlowToken": {
 			"source": "./cadence/contracts/tokens/FlowToken.cdc",

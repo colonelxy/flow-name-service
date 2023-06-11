@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useAuth } from "../contexts/AuthContext";
 import "../flow/config";
-import styles from "../styles/NavBar.module.css";
+import styles from "../styles/Navbar.module.css";
 
 
 export default function NavBar() {
