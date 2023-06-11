@@ -1,9 +1,9 @@
-Private Key fad4c673b7d74705472011f34b598cfcc9e411d55b917d757976e01c4cc1b5aa
-Public Key 80732af2d2841a3b1b536c429e6037cc8647dabed35cbae2a7fdf677bebfa6b1f383fa8e1fd144a89ad71c20d037445c59ec5c23abfa9206cc9939ed289c05eb
-Mnemonic consider random piano cousin client summer surface absent castle tomato field human
-Derivation Path m/44'/539'/0'/0/0
-Signature Algorithm ECDSA_P256
+# Flow Name Service
 
+In this dApp you can buy and sell domain names tied to blockchains where a human readable domain name can represent your crypto address, and a few other things. These domain names in the FNS (Flow Name Service), are also represented as NFTs so they can be traded on the secondary market.
 
+## Tools
 
-Domains -> 0x3c8b457f32bbf728 (2da3ad5b22213747d983c9b78b68ff46717989faf4a2d15137314e26bd0a02b1) 
+- The dApp is built withh Flow using the Cadence language for better security and simplicity.
+- It's deployed in Valist, a decentralized platform for hosting apps in a distributed environment using IPFS.
+- The frontent is built with Next JS.

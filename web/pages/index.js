@@ -1,53 +1,29 @@
-import * as fcl from "@onflow/fcl";
-
 import Head from "next/head";
-import Link from "next/link";
 import { useEffect, useState } from "react";
-import Navbar from "@/components/NavBar";
-import { getMyDomainInfos } from "../flow/scripts";
-import {initializeAccount} from "@/flow/transactions";
-import {useAuth} from "@/contexts/AuthContext";
+import Navbar from "../components/NavBar";
+import { getAllDomainInfos } from "../flow/scripts";
 import styles from "../styles/Home.module.css";
 
-
 export default function Home() {
-  // Use the AuthContext to track user data
-  const { currentUser, isInitialized, checkInit } = useAuth();
+  // Create a state variable for all the DomainInfo structs
+  // Initialize it to an empty array
   const [domainInfos, setDomainInfos] = useState([]);
 
-  // Function to initialize the user's account if not already initialized
-  async function initialize() {
-    try {
-      const txId = await initializeAccount();
-      await fcl.tx(txId).onceSealed();
-      await checkInit();
-    } catch (error) {
-      console.error(error);
-    }
-  }
-
-  // Function to fetch the domains owned by the currentUser
-  async function fetchMyDomains() {
-    try {
-      const domains = await getMyDomainInfos(currentUser.addr);
-      setDomainInfos(domains);
-    } catch (error) {
-      console.error(error.message);
-    }
-  }
-
-  // Load user-owned domains if they are initialized
-  // Run if value of `isInitialized` changes
+  // Load all the DomainInfo's by running the Cadence script
+  // when the page is loaded
   useEffect(() => {
-    if (isInitialized) {
-      fetchMyDomains();
+    async function fetchDomains() {
+      const domains = await getAllDomainInfos();
+      setDomainInfos(domains);
     }
-  }, [isInitialized]);
+
+    fetchDomains();
+  }, []);
 
   return (
     <div className={styles.container}>
       <Head>
-        <title>Flow Name Service - Manage</title>
+        <title>Flow Name Service</title>
         <meta name="description" content="Flow Name Service" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
@@ -55,45 +31,37 @@ export default function Home() {
       <Navbar />
 
       <main className={styles.main}>
-        <h1>Your Registered Domains</h1>
+        <h1>All Registered Domains</h1>
 
-        {!isInitialized ? (
-          <>
-            <p>Your account has not been initialized yet</p>
-            <button onClick={initialize}>Initialize Account</button>
-          </>
-        ) : (
-          <div className={styles.domainsContainer}>
-            {domainInfos.length === 0 ? (
-              <p>You have not registered any FNS Domains yet</p>
-            ) : (
-              domainInfos.map((di, idx) => (
-                <Link href={`/manage/${di.nameHash}`}>
-                  <div className={styles.domainInfo} key={idx}>
-                    <p>
-                      {di.id} - {di.name}
-                    </p>
-                    <p>Owner: {di.owner}</p>
-                    <p>Linked Address: {di.address ? di.address : "None"}</p>
-                    <p>Bio: {di.bio ? di.bio : "None"}</p>
-                    <p>
-                      Created At:{" "}
-                      {new Date(
-                        parseInt(di.createdAt) * 1000
-                      ).toLocaleDateString()}
-                    </p>
-                    <p>
-                      Expires At:{" "}
-                      {new Date(
-                        parseInt(di.expiresAt) * 1000
-                      ).toLocaleDateString()}
-                    </p>
-                  </div>
-                </Link>
-              ))
-            )}
-          </div>
-        )}
+        <div className={styles.domainsContainer}>
+          {
+            // If no domains were found, display a message highlighting that
+            domainInfos.length === 0 ? (
+            <p>No FNS Domains have been registered yet</p>
+          ) : (
+            // Otherwise, loop over the array, and render information
+            // about each domain
+            domainInfos.map((di, idx) => (
+              <div className={styles.domainInfo} key={idx}>
+                <p>
+                  {di.id} - {di.name}
+                </p>
+                <p>Owner: {di.owner}</p>
+                <p>Linked Address: {di.address ? di.address : "None"}</p>
+                <p>Bio: {di.bio ? di.bio : "None"}</p>
+                {/* <!-- Parse the timestamps as human-readable dates --> */}
+                <p>
+                  Created At:{" "}
+                  {new Date(parseInt(di.createdAt) * 1000).toLocaleDateString()}
+                </p>
+                <p>
+                  Expires At:{" "}
+                  {new Date(parseInt(di.expiresAt) * 1000).toLocaleDateString()}
+                </p>
+              </div>
+            ))
+          )}
+        </div>
       </main>
     </div>
   );

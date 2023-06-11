@@ -61,11 +61,13 @@ export default function Home() {
                         {domainInfos.length === 0 ? (
                             <p>You have not registered any FNS Domains yet</p>
                         ) : (
-                            domainInfos.map((di, idx) => (
+                            domainInfos.map((di,idx) => (
                                 <Link href={`/manage/&{di.nameHash}`}>
+
+                                    
                                     <div className={styles.domainInfo} key={idx}>
                                         <p>
-                                            {di.id} - {di.name}
+                                           {di.idx} - {di.name}
                                         </p>
                                         <p>Owner: {di.owner}</p>
                                         <p>Linked Address: {di.address ? di.address : "NONE"}</p>
